@@ -221,7 +221,7 @@ llama.cpp/ggml-opencl.o: llama.cpp/ggml.o
 	cd build && cp -rf CMakeFiles/ggml.dir/ggml-opencl.cpp.o ../llama.cpp/ggml-opencl.o
 
 llama.cpp/ggml-metal.o: llama.cpp/ggml.o
-	cd build && cp -rf CMakeFiles/ggml.dir/ggml-metal.m.o ../llama.cpp/ggml-metal.o
+	cd build && cp -rf ggml/src/ggml-metal/CMakeFiles/ggml-metal.dir/ggml-metal-context.m.o ../llama.cpp/ggml-metal.o
 
 llama.cpp/k_quants.o: llama.cpp/ggml.o
 	cd build && cp -rf ggml/src/CMakeFiles/ggml-base.dir/ggml-quants.c.o ../llama.cpp/k_quants.o
@@ -246,10 +246,21 @@ wrapper.o:
 libbinding.a: llama.cpp/ggml.o wrapper.o $(EXTRA_TARGETS)
 	cd build && cmake --build . --target common
 	ar crs libbinding.a wrapper.o $(EXTRA_TARGETS)
+ifeq ($(UNAME_S),Darwin)
+	cp build/bin/libllama.dylib .
+	cp build/bin/libggml.dylib .
+	cp build/bin/libggml-base.dylib .
+	cp build/bin/libggml-cpu.dylib .
+ifeq ($(BUILD_TYPE),metal)
+	cp build/bin/libggml-metal.dylib .
+	cp build/bin/libggml-blas.dylib .
+endif
+else
 	cp build/bin/libllama.so .
 	cp build/bin/libggml.so .
 	cp build/bin/libggml-base.so .
 	cp build/bin/libggml-cpu.so .
+endif
 	cp build/common/libcommon.a .
 ifeq ($(BUILD_TYPE),cublas)
 	cp build/bin/libggml-cuda.so .
