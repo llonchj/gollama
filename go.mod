@@ -1,4 +1,4 @@
-module github.com/tcpipuk/llama-go
+module github.com/godeps/gollama
 
 go 1.25
 

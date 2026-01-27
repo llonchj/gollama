@@ -1,7 +1,7 @@
 # Usage Guide
 
 > **Looking for API reference?** See the
-> [godoc reference](https://pkg.go.dev/github.com/tcpipuk/llama-go) for complete API documentation
+> [godoc reference](https://pkg.go.dev/github.com/godeps/gollama) for complete API documentation
 > with examples.
 
 This guide focuses on patterns, best practices, and integration examples for llama-go.
@@ -29,7 +29,7 @@ package main
 
 import (
     "fmt"
-    llama "github.com/tcpipuk/llama-go"
+    llama "github.com/godeps/gollama"
 )
 
 func main() {
@@ -232,7 +232,7 @@ Options use the functional options pattern, separated into ModelOption and Conte
 `WithThreadsBatch`, `WithF16Memory`, `WithEmbeddings`, `WithKVCacheType`, `WithFlashAttn`,
 `WithParallel`, `WithPrefixCaching`
 
-See the [option documentation](https://pkg.go.dev/github.com/tcpipuk/llama-go#pkg-functions) for
+See the [option documentation](https://pkg.go.dev/github.com/godeps/gollama#pkg-functions) for
 complete details, defaults, and usage examples.
 
 ## Thread safety
@@ -673,7 +673,7 @@ Common errors:
 ## API reference
 
 Complete API documentation is available at
-[pkg.go.dev/github.com/tcpipuk/llama-go](https://pkg.go.dev/github.com/tcpipuk/llama-go), including
+[pkg.go.dev/github.com/godeps/gollama](https://pkg.go.dev/github.com/godeps/gollama), including
 detailed method documentation, examples, and type definitions.
 
 ## Next steps
@@ -681,4 +681,4 @@ detailed method documentation, examples, and type definitions.
 - See [examples/](../examples/) for working code demonstrating all patterns
 - Check [building.md](building.md) for hardware acceleration options (CUDA, Metal, Vulkan, etc.)
 - Read [getting-started.md](getting-started.md) for installation and setup
-- Visit [pkg.go.dev](https://pkg.go.dev/github.com/tcpipuk/llama-go) for complete API reference
+- Visit [pkg.go.dev](https://pkg.go.dev/github.com/godeps/gollama) for complete API reference

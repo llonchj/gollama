@@ -10,7 +10,7 @@ import (
 	"fmt"
 	"strings"
 
-	llama "github.com/tcpipuk/llama-go"
+	llama "github.com/godeps/gollama"
 )
 
 // DisplaySystemPrompt shows the system prompt in dimmed style.

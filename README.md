@@ -1,6 +1,6 @@
-# llama-go: Run LLMs locally with Go
+# gollama: Run LLMs locally with Go
 
-[![Go Reference](https://pkg.go.dev/badge/github.com/tcpipuk/llama-go.svg)](https://pkg.go.dev/github.com/tcpipuk/llama-go)
+[![Go Reference](https://pkg.go.dev/badge/github.com/godeps/gollama.svg)](https://pkg.go.dev/github.com/godeps/gollama)
 
 Go bindings for [llama.cpp](https://github.com/ggml-org/llama.cpp), enabling you to run large
 language models locally with GPU acceleration. Production-ready library with thread-safe concurrent
@@ -17,19 +17,20 @@ PyTorch and/or vLLM.
 - **Getting started**: [Installation guide](docs/getting-started.md) |
   [API guide](docs/api-guide.md) | [Build options](docs/building.md)
 - **Migration**: [v1 to v2 migration guide](MIGRATION.md) for upgrading from the old API
-- **API reference**: [pkg.go.dev](https://pkg.go.dev/github.com/tcpipuk/llama-go) (complete godoc
+- **API reference**: [pkg.go.dev](https://pkg.go.dev/github.com/godeps/gollama) (complete godoc
   with examples)
 - **Examples**: [Working code examples](examples/) for chat, streaming, embeddings, speculative
   decoding
 - **Upstream**: [llama.cpp](https://github.com/ggml-org/llama.cpp) for model formats and engine
   details
+- **中文文档**: [README.zh-CN.md](README.zh-CN.md)
 
 ## Quick start
 
 ```bash
 # Clone with submodules
-git clone --recurse-submodules https://github.com/tcpipuk/llama-go
-cd llama-go
+git clone --recurse-submodules https://github.com/godeps/gollama
+cd gollama
 
 # Build the library
 make libbinding.a
@@ -50,7 +51,7 @@ package main
 import (
     "context"
     "fmt"
-    llama "github.com/tcpipuk/llama-go"
+    llama "github.com/godeps/gollama"
 )
 
 func main() {

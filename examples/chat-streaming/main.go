@@ -32,8 +32,8 @@ import (
 	"runtime"
 	"time"
 
-	llama "github.com/tcpipuk/llama-go"
-	"github.com/tcpipuk/llama-go/internal/exampleui"
+	llama "github.com/godeps/gollama"
+	"github.com/godeps/gollama/internal/exampleui"
 )
 
 // Note: This file uses exampleui.ColouriseField (UK spelling) for rainbow gradient colours

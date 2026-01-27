@@ -6,7 +6,7 @@ import (
 
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
-	llama "github.com/tcpipuk/llama-go"
+	llama "github.com/godeps/gollama"
 )
 
 var _ = Describe("GPU Layer Configuration", Label("gpu-layers"), func() {

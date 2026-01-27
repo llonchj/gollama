@@ -18,7 +18,7 @@ That's it - we'll handle everything else through containers to avoid dependency 
 Clone the repository with its llama.cpp submodule:
 
 ```bash
-git clone --recurse-submodules https://github.com/tcpipuk/llama-go
+git clone --recurse-submodules https://github.com/godeps/gollama
 cd llama-go
 ```
 
@@ -167,7 +167,7 @@ Now that the library works, here's how to integrate it into your Go application:
 1. **Import the package** in your Go code:
 
    ```go
-   import llama "github.com/tcpipuk/llama-go"
+   import llama "github.com/godeps/gollama"
    ```
 
 2. **Use the Model/Context API pattern**:

@@ -32,7 +32,7 @@ import (
 	"os"
 	"runtime"
 
-	llama "github.com/tcpipuk/llama-go"
+	llama "github.com/godeps/gollama"
 )
 
 func main() {
