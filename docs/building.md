@@ -9,7 +9,7 @@ The library requires:
 
 - C++ compiler (GCC/Clang)
 - CMake (required for llama.cpp b6603+)
-- Git with submodule support
+- Git
 
 For containerised builds (recommended), you only need Docker.
 
@@ -281,11 +281,9 @@ export LD_LIBRARY_PATH=$PWD     # Runtime: loading shared libraries
 - Use the project build containers which include CMake
 - Or install CMake: `apt-get install cmake` (Ubuntu/Debian)
 
-### Submodule not initialised
+### llama.cpp directory missing
 
-```bash
-git submodule update --init --recursive
-```
+- Re-clone the repository (llama.cpp is vendored into this repo)
 
 ### Build fails with "undefined reference"
 

@@ -28,8 +28,8 @@ PyTorch and/or vLLM.
 ## Quick start
 
 ```bash
-# Clone with submodules
-git clone --recurse-submodules https://github.com/godeps/gollama
+# Clone
+git clone https://github.com/godeps/gollama
 cd gollama
 
 # Download a test model
@@ -159,7 +159,7 @@ Key components:
 - `model.go` - Model loading and weight management (thread-safe)
 - `context.go` - Execution contexts for inference (one per goroutine)
 - Clean Go API with comprehensive godoc comments
-- `llama.cpp/` - Git submodule tracking upstream releases
+- `llama.cpp/` - Vendored upstream (git subtree) tracking llama.cpp releases
 
 The design uses functional options for configuration (ModelOption vs ContextOption), explicit
 context creation for thread safety, automatic KV cache prefix reuse for performance, resource

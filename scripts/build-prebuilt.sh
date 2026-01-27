@@ -5,7 +5,7 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
 
 if [[ ! -f "llama.cpp/CMakeLists.txt" ]]; then
-  echo "llama.cpp submodule missing. Run: git submodule update --init --recursive" >&2
+  echo "llama.cpp directory missing. Re-clone the repository." >&2
   exit 1
 fi
 

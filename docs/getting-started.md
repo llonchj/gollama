@@ -7,7 +7,7 @@ example. By the end, you'll have a working installation and understand the basic
 
 Before starting, you'll need:
 
-- Git with submodule support
+- Git
 - Docker (recommended) or a C++ compiler with CMake
 - About 1GB of disk space for the build and test model
 
@@ -15,17 +15,11 @@ That's it - we'll handle everything else through containers to avoid dependency 
 
 ## Step 1: Clone the repository
 
-Clone the repository with its llama.cpp submodule:
+Clone the repository:
 
 ```bash
-git clone --recurse-submodules https://github.com/godeps/gollama
+git clone https://github.com/godeps/gollama
 cd gollama
-```
-
-If you've already cloned without submodules, initialise them:
-
-```bash
-git submodule update --init --recursive
 ```
 
 ## Step 2: Use the prebuilt libraries (recommended)
@@ -111,7 +105,7 @@ This starts an interactive session where you can type prompts and see responses 
 
 **"No such file or directory: wrapper.cpp"**
 
-- Make sure you're in the correct directory and the submodules are initialised
+- Make sure you're in the correct directory
 
 **Missing `.so` files after build**
 

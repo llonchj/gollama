@@ -23,8 +23,8 @@ API 将 LLM 推理集成进应用。
 ## 快速开始
 
 ```bash
-# 克隆（包含子模块）
-git clone --recurse-submodules https://github.com/godeps/gollama
+# 克隆
+git clone https://github.com/godeps/gollama
 cd gollama
 
 # 下载测试模型

@@ -35,39 +35,18 @@ ls -la llama.cpp/*.o 2>/dev/null
 
 **Verification**: Ensure no `.a`, `.so`, or `.o` files remain before proceeding.
 
-### 3. Update the submodule
+### 3. Update the vendored llama.cpp subtree
 
-Update the llama.cpp submodule to the target release:
+Update the vendored llama.cpp snapshot to the target release:
 
 ```bash
-# Check submodule status first
-cd llama.cpp
-git status  # Should be clean before proceeding
+./scripts/update-llama-subtree.sh <target-tag>  # e.g. b6615
 
-# Fetch and checkout target release
-git fetch origin
-git checkout <target-tag>  # e.g. b6615
-
-# Verify correct tag
-git describe --tags  # Should show exact tag
-
-# Ensure clean state (no modifications)
-git status  # Should show "HEAD detached at <tag>" with no changes
-
-cd ..
-
-# Check diff before staging to prevent "-dirty" commits
-git diff llama.cpp  # Should show clean pointer update
-git submodule status  # Should show no + prefix (clean)
-
-# Stage the submodule update
-git add llama.cpp
-
-# Verify staged change
-git diff --cached  # Should show clean submodule pointer update
+# Verify the vendored tree matches the expected tag
+git -C llama.cpp describe --tags
 ```
 
-**Verification**: The submodule must be at the exact tag with no local modifications.
+**Verification**: The vendored tree should show the exact tag with no local modifications.
 
 ### 4. Test compatibility
 
@@ -205,7 +184,7 @@ changed and why, then create an annotated tag.
 git commit -m "$(cat <<'EOF'
 feat(deps): update llama.cpp to b6709 with compatibility fixes
 
-Update llama.cpp submodule from b6615 to b6709 (94 commits). Fix critical ABI
+Update vendored llama.cpp subtree from b6615 to b6709 (94 commits). Fix critical ABI
 issue by initialising new no_host field in llama_model_params. Implement proper
 KV cache cleanup in speculative decoding using llama_memory_seq_rm to remove
 unaccepted tokens after each batch.
@@ -299,5 +278,5 @@ Before tagging a release, verify:
 - [ ] Text generation produces reasonable output
 - [ ] Test suite passes without failures
 - [ ] No obvious API compatibility warnings or errors
-- [ ] Commit shows clean submodule pointer update (no "-dirty" suffix)
+- [ ] Commit includes clean vendored llama.cpp update (no "-dirty" suffix)
 - [ ] Commit includes clear description of changes made
