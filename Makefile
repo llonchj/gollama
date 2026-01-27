@@ -251,19 +251,19 @@ libbinding.a: llama.cpp/ggml.o wrapper.o $(EXTRA_TARGETS)
 	cd build && cmake --build . --target common
 	ar crs libbinding.a wrapper.o $(EXTRA_TARGETS)
 ifeq ($(UNAME_S),Darwin)
-	cp build/bin/libllama.dylib .
-	cp build/bin/libggml.dylib .
-	cp build/bin/libggml-base.dylib .
-	cp build/bin/libggml-cpu.dylib .
+	cp -a build/bin/libllama.dylib* .
+	cp -a build/bin/libggml.dylib* .
+	cp -a build/bin/libggml-base.dylib* .
+	cp -a build/bin/libggml-cpu.dylib* .
 ifeq ($(BUILD_TYPE),metal)
 	cp build/bin/libggml-metal.dylib .
 	cp build/bin/libggml-blas.dylib .
 endif
 else
-	cp build/bin/libllama.so .
-	cp build/bin/libggml.so .
-	cp build/bin/libggml-base.so .
-	cp build/bin/libggml-cpu.so .
+	cp -a build/bin/libllama.so* .
+	cp -a build/bin/libggml.so* .
+	cp -a build/bin/libggml-base.so* .
+	cp -a build/bin/libggml-cpu.so* .
 endif
 	cp build/common/libcommon.a .
 ifeq ($(BUILD_TYPE),cublas)

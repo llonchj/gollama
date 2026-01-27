@@ -20,6 +20,7 @@ TARGET="${GOOS}_${GOARCH}"
 OUT_DIR="prebuilt/${TARGET}"
 
 mkdir -p "$OUT_DIR"
+find "$OUT_DIR" -mindepth 1 -maxdepth 1 ! -name '.gitkeep' -exec rm -rf {} +
 
 make libbinding.a
 
@@ -28,13 +29,23 @@ cp -f libcommon.a "$OUT_DIR/"
 
 case "$GOOS" in
   linux)
-    cp -f libllama.so libggml.so libggml-base.so libggml-cpu.so "$OUT_DIR/"
-    if [[ -f libggml-cuda.so ]]; then
+    if [[ -d build/bin ]]; then
+      cp -a build/bin/libllama.so* build/bin/libggml*.so* "$OUT_DIR/"
+    else
+      cp -f libllama.so libggml.so libggml-base.so libggml-cpu.so "$OUT_DIR/"
+    fi
+    if [[ -f build/bin/libggml-cuda.so ]]; then
+      cp -a build/bin/libggml-cuda.so* "$OUT_DIR/"
+    elif [[ -f libggml-cuda.so ]]; then
       cp -f libggml-cuda.so "$OUT_DIR/"
     fi
     ;;
   darwin)
-    cp -f libllama.dylib libggml.dylib libggml-base.dylib libggml-cpu.dylib "$OUT_DIR/"
+    if [[ -d build/bin ]]; then
+      cp -a build/bin/libllama.dylib* build/bin/libggml*.dylib* "$OUT_DIR/"
+    else
+      cp -f libllama.dylib libggml.dylib libggml-base.dylib libggml-cpu.dylib "$OUT_DIR/"
+    fi
     if [[ -f libggml-metal.dylib ]]; then
       cp -f libggml-metal.dylib "$OUT_DIR/"
     fi
