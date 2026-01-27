@@ -5,7 +5,7 @@
 #include "llama.cpp/common/sampling.h"
 #include "llama.cpp/common/speculative.h"
 #include "llama.cpp/common/chat.h"
-#include "llama.cpp/vendor/nlohmann/json.hpp"
+#include "llama.cpp/third_party/nlohmann/json.hpp"
 
 #include <string>
 #include <vector>
