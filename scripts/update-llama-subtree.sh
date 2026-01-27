@@ -18,4 +18,9 @@ REF="$1"
 
 git subtree pull --prefix=llama.cpp https://github.com/ggerganov/llama.cpp "$REF" --squash
 
+mkdir -p llama.cpp/third_party/nlohmann
+cp -f llama.cpp/vendor/nlohmann/json.hpp llama.cpp/vendor/nlohmann/json_fwd.hpp llama.cpp/third_party/nlohmann/
+
+git add llama.cpp/third_party/nlohmann
+
 echo "Updated llama.cpp subtree to ${REF}"
