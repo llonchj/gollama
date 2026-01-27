@@ -9,9 +9,9 @@ if [[ ! -f "llama.cpp/CMakeLists.txt" ]]; then
   exit 1
 fi
 
-if [[ -f "llama.cpp/vendor/nlohmann/json.hpp" ]]; then
-  mkdir -p llama.cpp/third_party/nlohmann
-  cp -f llama.cpp/vendor/nlohmann/json.hpp llama.cpp/vendor/nlohmann/json_fwd.hpp llama.cpp/third_party/nlohmann/
+if [[ -f "llama.cpp/third_party/nlohmann/json.hpp" ]]; then
+  mkdir -p llama.cpp/vendor/nlohmann
+  cp -f llama.cpp/third_party/nlohmann/json.hpp llama.cpp/third_party/nlohmann/json_fwd.hpp llama.cpp/vendor/nlohmann/
 fi
 
 GOOS="$(go env GOOS)"

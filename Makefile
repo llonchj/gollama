@@ -210,7 +210,11 @@ $(info )
 llama.cpp/ggml-alloc.o: llama.cpp/ggml.o
 	cd build && cp -rf ggml/src/CMakeFiles/ggml-base.dir/ggml-alloc.c.o ../llama.cpp/ggml-alloc.o
 
-llama.cpp/ggml.o:
+llama.cpp/vendor/nlohmann/json.hpp: llama.cpp/third_party/nlohmann/json.hpp llama.cpp/third_party/nlohmann/json_fwd.hpp
+	mkdir -p llama.cpp/vendor/nlohmann
+	cp -f llama.cpp/third_party/nlohmann/json.hpp llama.cpp/third_party/nlohmann/json_fwd.hpp llama.cpp/vendor/nlohmann/
+
+llama.cpp/ggml.o: llama.cpp/vendor/nlohmann/json.hpp
 	mkdir -p build
 	cd build && CC="$(CC)" CXX="$(CXX)" cmake ../llama.cpp $(CMAKE_ARGS) -DLLAMA_CURL=OFF && VERBOSE=1 cmake --build . --config Release --target ggml llama && cp -rf ggml/src/CMakeFiles/ggml-base.dir/ggml.c.o ../llama.cpp/ggml.o
 
