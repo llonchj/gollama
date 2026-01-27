@@ -32,15 +32,34 @@ PyTorch and/or vLLM.
 git clone --recurse-submodules https://github.com/godeps/gollama
 cd gollama
 
-# Build the library
-make libbinding.a
-
 # Download a test model
 wget https://huggingface.co/Qwen/Qwen3-0.6B-GGUF/resolve/main/Qwen3-0.6B-Q8_0.gguf
 
-# Run an example
-export LIBRARY_PATH=$PWD C_INCLUDE_PATH=$PWD LD_LIBRARY_PATH=$PWD
+# Run an example (Linux). On macOS use DYLD_LIBRARY_PATH instead.
+export LD_LIBRARY_PATH=$PWD/prebuilt/$(go env GOOS)_$(go env GOARCH)
 go run ./examples/simple -m Qwen3-0.6B-Q8_0.gguf -p "Hello world" -n 50
+```
+
+## Prebuilt libraries
+
+CPU-only prebuilt libraries are stored under `prebuilt/<os>_<arch>` for:
+
+- linux/amd64
+- linux/arm64
+- darwin/amd64
+- darwin/arm64
+- windows/amd64
+
+The Go build links against these directories by default. If you move the binaries:
+
+- **Linux**: set `LD_LIBRARY_PATH` or keep the libs next to the built binary.
+- **macOS**: keep the `.dylib` files next to the binary (rpath uses `@loader_path`).
+- **Windows**: copy the `.dll` files next to your `.exe` or add the folder to `PATH`.
+
+To (re)build and stage the current platform's artifacts into `prebuilt/`, run:
+
+```bash
+./scripts/build-prebuilt.sh
 ```
 
 ## Basic usage

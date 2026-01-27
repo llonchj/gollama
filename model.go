@@ -11,7 +11,6 @@ import (
 #cgo CFLAGS: -I./llama.cpp -I./ -I./llama.cpp/ggml/include -I./llama.cpp/include -I./llama.cpp/common -I./llama.cpp/vendor
 #cgo CXXFLAGS: -std=c++17 -I./llama.cpp -I./ -I./llama.cpp/ggml/include -I./llama.cpp/include -I./llama.cpp/common -I./llama.cpp/vendor
 #cgo CPPFLAGS: -I./llama.cpp -I./ -I./llama.cpp/ggml/include -I./llama.cpp/include -I./llama.cpp/common -I./llama.cpp/vendor
-#cgo LDFLAGS: -L./ -lbinding -lcommon -lllama -lggml-cpu -lggml-base -lggml -lstdc++ -lm
 #include "wrapper.h"
 #include <stdlib.h>
 

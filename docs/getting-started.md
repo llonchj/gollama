@@ -19,7 +19,7 @@ Clone the repository with its llama.cpp submodule:
 
 ```bash
 git clone --recurse-submodules https://github.com/godeps/gollama
-cd llama-go
+cd gollama
 ```
 
 If you've already cloned without submodules, initialise them:
@@ -28,16 +28,18 @@ If you've already cloned without submodules, initialise them:
 git submodule update --init --recursive
 ```
 
-## Step 2: Build the library
+## Step 2: Use the prebuilt libraries (recommended)
 
-We'll use the project's build containers which include all necessary build tools, including CMake:
+CPU-only prebuilt libraries are included in `prebuilt/<os>_<arch>`. The Go build links against
+these by default, so you can skip compiling llama.cpp for the supported platforms.
+
+If you want to rebuild the libraries for your current platform:
 
 ```bash
-docker run --rm -v $(pwd):/workspace -w /workspace git.tomfos.tr/tom/llama-go:build-cuda \
-  bash -c "LIBRARY_PATH=/workspace C_INCLUDE_PATH=/workspace make libbinding.a"
+./scripts/build-prebuilt.sh
 ```
 
-This creates several files:
+This creates and stages several files in `prebuilt/<os>_<arch>`:
 
 - `libbinding.a` - The main library for Go
 - `libllama.so`, `libggml.so`, etc. - Shared libraries needed at runtime
@@ -63,7 +65,7 @@ Now test the installation with a simple question:
 
 ```bash
 docker run --rm -v $(pwd):/workspace -w /workspace golang:latest \
-  bash -c "LIBRARY_PATH=/workspace C_INCLUDE_PATH=/workspace LD_LIBRARY_PATH=/workspace \
+  bash -c "export LD_LIBRARY_PATH=/workspace/prebuilt/$(go env GOOS)_$(go env GOARCH); \
            go run ./examples -m Qwen3-0.6B-Q8_0.gguf \
            -p 'What is the capital of France?' -n 50"
 ```
@@ -78,13 +80,14 @@ The inference should complete in under a minute on most systems.
 
 ## Understanding the environment variables
 
-The library requires three environment variables:
+If your linker/runtime cannot find the libraries, set:
 
-- `LIBRARY_PATH`: Tells the Go compiler where to find the static library
+- `LIBRARY_PATH`: Tells the Go compiler where to find static libraries
 - `C_INCLUDE_PATH`: Tells the compiler where to find header files
 - `LD_LIBRARY_PATH`: Tells the runtime where to find shared libraries
 
-Without these, you'll see "undefined symbol" or "library not found" errors.
+With prebuilt libraries in `prebuilt/<os>_<arch>`, the build usually works without these,
+but they are useful when you relocate the artifacts.
 
 ## Interactive mode
 
@@ -92,7 +95,7 @@ You can also run the example in interactive mode by omitting the `-p` parameter:
 
 ```bash
 docker run --rm -it -v $(pwd):/workspace -w /workspace golang:latest \
-  bash -c "LIBRARY_PATH=/workspace C_INCLUDE_PATH=/workspace LD_LIBRARY_PATH=/workspace \
+  bash -c "export LD_LIBRARY_PATH=/workspace/prebuilt/$(go env GOOS)_$(go env GOARCH); \
            go run ./examples -m Qwen3-0.6B-Q8_0.gguf"
 ```
 

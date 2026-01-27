@@ -1,0 +1,112 @@
+name: Build prebuilt libraries
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - dev
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build (${{ matrix.name }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: linux_amd64
+            os: ubuntu-24.04
+          - name: linux_arm64
+            os: ubuntu-24.04-arm64
+          - name: darwin_amd64
+            os: macos-13
+          - name: darwin_arm64
+            os: macos-14
+          - name: windows_amd64
+            os: windows-2022
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.25"
+
+      - name: Install dependencies (Linux)
+        if: startsWith(matrix.os, 'ubuntu')
+        run: sudo apt-get update && sudo apt-get install -y build-essential cmake
+
+      - name: Install dependencies (macOS)
+        if: startsWith(matrix.os, 'macos')
+        run: brew update && brew install cmake
+
+      - name: Setup MSYS2 (Windows)
+        if: startsWith(matrix.os, 'windows')
+        uses: msys2/setup-msys2@v2
+        with:
+          update: true
+          install: >-
+            mingw-w64-x86_64-toolchain
+            mingw-w64-x86_64-cmake
+            make
+
+      - name: Build prebuilt (Linux/macOS)
+        if: startsWith(matrix.os, 'ubuntu') || startsWith(matrix.os, 'macos')
+        run: ./scripts/build-prebuilt.sh
+
+      - name: Build prebuilt (Windows)
+        if: startsWith(matrix.os, 'windows')
+        shell: msys2 {0}
+        run: ./scripts/build-prebuilt.sh
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: prebuilt_${{ matrix.name }}
+          path: prebuilt/${{ matrix.name }}
+          if-no-files-found: error
+
+  commit:
+    name: Commit prebuilt artifacts
+    needs: build
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: /tmp/prebuilt-artifacts
+
+      - name: Sync artifacts
+        run: |
+          set -euo pipefail
+          rsync -a --delete /tmp/prebuilt-artifacts/prebuilt_linux_amd64/ prebuilt/linux_amd64/
+          rsync -a --delete /tmp/prebuilt-artifacts/prebuilt_linux_arm64/ prebuilt/linux_arm64/
+          rsync -a --delete /tmp/prebuilt-artifacts/prebuilt_darwin_amd64/ prebuilt/darwin_amd64/
+          rsync -a --delete /tmp/prebuilt-artifacts/prebuilt_darwin_arm64/ prebuilt/darwin_arm64/
+          rsync -a --delete /tmp/prebuilt-artifacts/prebuilt_windows_amd64/ prebuilt/windows_amd64/
+
+      - name: Commit and push
+        run: |
+          set -euo pipefail
+          if [[ -z "$(git status --porcelain)" ]]; then
+            echo "No changes to commit"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add prebuilt
+          git commit -m "ci: update prebuilt libraries"
+          git push

@@ -15,6 +15,16 @@ For containerised builds (recommended), you only need Docker.
 
 ## Build methods
 
+### Prebuilt libraries (recommended)
+
+CPU-only prebuilt libraries are stored under `prebuilt/<os>_<arch>` for common platforms. The
+Go build links against these directories by default, so you can usually skip compiling llama.cpp.
+To rebuild and stage artifacts for the current platform:
+
+```bash
+./scripts/build-prebuilt.sh
+```
+
 ### Recommended: Using project build containers
 
 We recommend using the project's build containers which include:

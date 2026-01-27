@@ -6,9 +6,20 @@ prepare
 
 # static libraries
 libbinding*.a
+libcommon.a
+libllama*.so
+libggml*.so
+libllama*.so.*
+libggml*.so.*
+libllama*.dylib
+libggml*.dylib
+libllama*.dylib.*
+libggml*.dylib.*
+*.o
 
 # build output directories
 /build-output
+build-output/
 
 # just in case
 .DS_Store
@@ -20,3 +31,11 @@ CLAUDE.md
 # local testing files
 ggllm-test-model.bin
 *.gguf
+
+# local temporary files
+*.tmp
+*.temp
+*.log
+
+# allow checked-in prebuilt artifacts
+!prebuilt/**

@@ -27,15 +27,34 @@ API 将 LLM 推理集成进应用。
 git clone --recurse-submodules https://github.com/godeps/gollama
 cd gollama
 
-# 构建库
-make libbinding.a
-
 # 下载测试模型
 wget https://huggingface.co/Qwen/Qwen3-0.6B-GGUF/resolve/main/Qwen3-0.6B-Q8_0.gguf
 
-# 运行示例
-export LIBRARY_PATH=$PWD C_INCLUDE_PATH=$PWD LD_LIBRARY_PATH=$PWD
+# 运行示例（Linux）。macOS 请使用 DYLD_LIBRARY_PATH。
+export LD_LIBRARY_PATH=$PWD/prebuilt/$(go env GOOS)_$(go env GOARCH)
 go run ./examples/simple -m Qwen3-0.6B-Q8_0.gguf -p "Hello world" -n 50
+```
+
+## 预编译库
+
+CPU 版本的预编译库位于 `prebuilt/<os>_<arch>`，已覆盖：
+
+- linux/amd64
+- linux/arm64
+- darwin/amd64
+- darwin/arm64
+- windows/amd64
+
+Go 构建默认会链接这些目录。如果你移动了动态库文件：
+
+- **Linux**：设置 `LD_LIBRARY_PATH` 或将库文件放在可执行文件旁。
+- **macOS**：将 `.dylib` 放在可执行文件旁（使用 `@loader_path` rpath）。
+- **Windows**：将 `.dll` 放在 `.exe` 旁或加入 `PATH`。
+
+如需重新构建并写入 `prebuilt/`，运行：
+
+```bash
+./scripts/build-prebuilt.sh
 ```
 
 ## 基础用法
