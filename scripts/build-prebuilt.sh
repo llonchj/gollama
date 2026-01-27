@@ -68,4 +68,11 @@ case "$GOOS" in
     ;;
 esac
 
+# Go module zips drop symlinks. Materialize versioned libs as real files.
+find "$OUT_DIR" -type l \( -name '*.so*' -o -name '*.dylib*' \) -exec bash -c '
+  target="$(readlink -f "$1")"
+  rm -f "$1"
+  cp -f "$target" "$1"
+' bash {} \;
+
 echo "Prebuilt artifacts staged in $OUT_DIR"
