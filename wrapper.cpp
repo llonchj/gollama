@@ -119,6 +119,7 @@ static struct llama_context_params convert_context_params(llama_wrapper_model_pa
     struct llama_context_params ctx_params = llama_context_default_params();
     ctx_params.n_ctx = params.n_ctx > 0 ? params.n_ctx : 2048;
     ctx_params.n_batch = params.n_batch > 0 ? params.n_batch : 512;
+    ctx_params.n_ubatch = ctx_params.n_batch; // Match ubatch to batch for BERT models on Metal
     ctx_params.n_threads = params.n_threads > 0 ? params.n_threads : 4;
     ctx_params.n_threads_batch = params.n_threads_batch > 0 ? params.n_threads_batch : ctx_params.n_threads;
     ctx_params.n_seq_max = params.n_parallel > 0 ? params.n_parallel : 1;
